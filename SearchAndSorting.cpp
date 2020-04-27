@@ -17,11 +17,11 @@ int main()
     int* unsortedArray = new int[arrSizeSearch];
     for (int i = 0; i < arrSizeSearch; i++)
         unsortedArray[i] = rand() % 2001 - 1000;
-  
+
     int* sortedArray = new int[arrSizeBinarySearch];
     for (int i = 0; i < arrSizeBinarySearch; i++)
         sortedArray[i] = rand() % 21 - 10;
-    
+
     PrintArray(sortedArray, 50, "Unsorted array");
     QuickSortNotRecursive(sortedArray, 0, arrSizeBinarySearch - 1);
     PrintArray(sortedArray, 50, "Sorted array by \'QuickSortNotRecursive\'");
@@ -45,15 +45,16 @@ void QuickSortRecursive(int* arr, int start, int end)
         return;
     int pivot = arr[end];
     int storeIndex = start;
+    int t;
     for (int i = start; i <= end - 1; i++)
     {
         if (arr[i] <= pivot)
         {
-            Swap(arr, i, storeIndex);
+            swap(arr[i], arr[storeIndex]);
             storeIndex++;
         }
     }
-    Swap(arr, end, storeIndex);
+    swap(arr[end], arr[storeIndex]);
     if (storeIndex > start) QuickSortRecursive(arr, start, storeIndex - 1);
     if (storeIndex < end) QuickSortRecursive(arr, storeIndex + 1, end);
 }
@@ -85,7 +86,7 @@ int Partition(int* arr, int position, int start, int end)
     int i = start;
     int j = end - 2;
     int pivot = arr[position];
-    Swap(arr, position, end - 1);
+    swap(arr[position], arr[end - 1]);
     while (i < j)
     {
         if (arr[i] < pivot)
@@ -93,12 +94,12 @@ int Partition(int* arr, int position, int start, int end)
         else if (arr[j] >= pivot)
             j--;
         else
-            Swap(arr, i++, j);
+            swap(arr[i++], arr[j]);
     }
     int idx = j;
     if (arr[j] < pivot)
         idx++;
-    Swap(arr, end - 1, idx);
+    swap(arr[end - 1], arr[idx]);
     return idx;
 }
 
@@ -118,7 +119,7 @@ int BinarySearchRecursive(int* arrptr, int start, int end, int key)
 }
 
 int BinarySearchNotRecursive(int* arrptr, int start, int end, int key)
-{                         
+{
     int left = start;
     int right = end;
     while (left < right)
@@ -130,7 +131,7 @@ int BinarySearchNotRecursive(int* arrptr, int start, int end, int key)
             left = mid + 1;
     }
     if (arrptr[left] == key)
-        return left;  
+        return left;
     return -1;
 }
 
@@ -147,10 +148,10 @@ void CompareExecutionRate(int* unsortedArray, int* sortedArray)
     endSearch = chrono::high_resolution_clock::now();
     chrono::duration<float> binarySearchDuration = endSearch - startSearch;
     if (res != -1)
-        cout << "Element founded by \'BinarySearchNotRecursive\'  " <<sortedArray[res] << endl<<endl;
-    else cout << "Element " << keyElement <<" was not founded by \'BinarySearchNotRecursive\'" << endl<<endl;
+        cout << "Element founded by \'BinarySearchNotRecursive\'  " << sortedArray[res] << endl << endl;
+    else cout << "Element " << keyElement << " was not founded by \'BinarySearchNotRecursive\'" << endl << endl;
 
-    cout << "Searching in sorted array faster than searching in an unsorted array by " << searchDuration.count() - binarySearchDuration.count() << " s"<<endl;
+    cout << "Searching in sorted array faster than searching in an unsorted array by " << searchDuration.count() - binarySearchDuration.count() << " s" << endl;
 }
 
 void PrintArray(int* arr, int n, string title)
@@ -158,14 +159,7 @@ void PrintArray(int* arr, int n, string title)
     cout << title << endl;
     for (int i = 0; i < n; i++)
         cout << arr[i] << ' ';
-    cout << endl<<endl;
-}
-
-void Swap(int* arrptr, int i, int j)
-{
-    int t = arrptr[i];
-    arrptr[i] = arrptr[j];
-    arrptr[j] = t;
+    cout << endl << endl;
 }
 
 void CheckSortingMethods()

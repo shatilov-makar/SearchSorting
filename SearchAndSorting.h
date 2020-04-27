@@ -3,7 +3,6 @@
 
 
 int Search(int* arrptr, int key);
-void Swap(int* arrptr, int i, int j);
 void QuickSortRecursive(int* arrptr, int start, int end);
 void QuickSortNotRecursive(int* arrptr, int start, int end);
 int Partition(int* arrptr, int position, int start, int end);
