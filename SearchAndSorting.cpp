@@ -50,11 +50,14 @@ void QuickSortRecursive(int* arr, int start, int end)
     {
         if (arr[i] <= pivot)
         {
-            swap(arr[i], arr[storeIndex]);
-            storeIndex++;
+            t = arr[i];
+            arr[i] = arr[storeIndex];
+            arr[storeIndex++] = t;
         }
     }
-    swap(arr[end], arr[storeIndex]);
+    t = arr[end];
+    arr[end] = arr[storeIndex];
+    arr[storeIndex] = t;
     if (storeIndex > start) QuickSortRecursive(arr, start, storeIndex - 1);
     if (storeIndex < end) QuickSortRecursive(arr, storeIndex + 1, end);
 }
@@ -86,7 +89,9 @@ int Partition(int* arr, int position, int start, int end)
     int i = start;
     int j = end - 2;
     int pivot = arr[position];
-    swap(arr[position], arr[end - 1]);
+    int t = arr[position];
+    arr[position] = arr[end - 1];
+    arr[end - 1] = t;
     while (i < j)
     {
         if (arr[i] < pivot)
@@ -94,12 +99,19 @@ int Partition(int* arr, int position, int start, int end)
         else if (arr[j] >= pivot)
             j--;
         else
-            swap(arr[i++], arr[j]);
+        {
+            t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+            i++;
+        }
     }
     int idx = j;
     if (arr[j] < pivot)
         idx++;
-    swap(arr[end - 1], arr[idx]);
+    t = arr[end - 1];
+    arr[end - 1] = arr[idx];
+    arr[idx] = t;
     return idx;
 }
 
