@@ -1,6 +1,5 @@
 ﻿#include <ctime> 
 #include <iostream>
-#include <stack>
 #include "SearchAndSorting.h"
 #include <thread>
 #include <string>
@@ -64,24 +63,26 @@ void QuickSortRecursive(int* arr, int start, int end)
 
 void QuickSortNotRecursive(int* arr, int start, int end)
 {
-    stack<int> stack;
-    stack.push(start);
-    stack.push(end);
-    while (!stack.empty())
+    int* indexArray = new int[end]();
+    const int valueEmptyArray = 1001;
+    indexArray[0] = valueEmptyArray;
+    indexArray[1] = start;
+    indexArray[2] = end;
+    int j = 2;
+    while (indexArray[j] != valueEmptyArray)
     {
-        int end = stack.top();
-        stack.pop();
-        int start = stack.top();
-        stack.pop();
+        int end = indexArray[j--];
+        int start = indexArray[j--];
         if (end - start < 2)
             continue;
         int p = (end + start) / 2;
         p = Partition(arr, p, start, end);
-        stack.push(p + 1);
-        stack.push(end);
-        stack.push(start);
-        stack.push(p);
+        indexArray[++j] = p + 1;
+        indexArray[++j] = end;
+        indexArray[++j] = start;
+        indexArray[++j] = p;
     }
+    delete[] indexArray;
 }
 
 int Partition(int* arr, int position, int start, int end)
